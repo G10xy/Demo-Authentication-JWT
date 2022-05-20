@@ -20,9 +20,8 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
     @Autowired
     private val jwtUtils: JwtUtils? = null
 
-    companion object {
-        private val log = LoggerFactory.getLogger(JwtAuthenticationTokenFilter::class.java)
-    }
+    private val log = LoggerFactory.getLogger(JwtAuthenticationTokenFilter::class.java)
+
 
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(

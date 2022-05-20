@@ -24,9 +24,8 @@ open class UserSecurityServiceImpl(
     private val userStateService: UserStateService
 ) : UserSecurityService {
 
-    companion object {
-        private val log = LoggerFactory.getLogger(UserSecurityServiceImpl::class.java)
-    }
+    private val log = LoggerFactory.getLogger(UserSecurityServiceImpl::class.java)
+
 
     private var cacheFailedLogins: MutableMap<String, Int> = Collections.synchronizedMap(mutableMapOf())
 

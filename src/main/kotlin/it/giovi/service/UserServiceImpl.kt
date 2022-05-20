@@ -24,6 +24,7 @@ import it.giovi.service.mapper.UserMapper
 import it.giovi.util.Utility
 import net.bytebuddy.utility.RandomString
 import org.mapstruct.factory.Mappers
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -46,9 +47,7 @@ class UserServiceImpl(
     private val userSecurityService: UserSecurityService
 ) : UserService {
 
-    companion object {
-        private val log = LoggerFactory.getLogger(UserServiceImpl::class.java)
-    }
+    private val log : Logger = LoggerFactory.getLogger(UserServiceImpl::class.java)
 
     val userMapper: UserMapper = Mappers.getMapper(UserMapper::class.java)
 

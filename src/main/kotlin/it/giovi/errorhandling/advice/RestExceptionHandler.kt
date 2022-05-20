@@ -33,9 +33,7 @@ import kotlin.streams.toList
 @RestControllerAdvice
 class RestExceptionHandler : ResponseEntityExceptionHandler() {
 
-    companion object {
-        private val log = LoggerFactory.getLogger(RestExceptionHandler::class.java)
-    }
+    private val log = LoggerFactory.getLogger(RestExceptionHandler::class.java)
 
     @ExceptionHandler(value = [Exception::class])
     fun handleUncaughtException(ex: Exception, request: ServletWebRequest): ResponseEntity<Any> {

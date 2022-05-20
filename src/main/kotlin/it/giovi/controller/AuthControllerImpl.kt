@@ -87,7 +87,7 @@ class AuthControllerImpl(
 
     @PutMapping("/userActivation")
     fun userActivation(@RequestBody userFirstAccess: @Valid UserFirstAccess): ResponseEntity<SuccessResponse> {
-        userService.userActivation(userFirstAccess!!)
+        userService.userActivation(userFirstAccess)
         return ResponseEntity.ok(SuccessResponse("User correctly activated"))
     }
 

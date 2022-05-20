@@ -15,9 +15,8 @@ import javax.servlet.http.HttpServletResponse
 @Component
 class JwtAuthenticationEntryPoint : AuthenticationEntryPoint {
 
-    companion object {
-        private val log = LoggerFactory.getLogger(JwtAuthenticationEntryPoint::class.java)
-    }
+
+    private val log = LoggerFactory.getLogger(JwtAuthenticationEntryPoint::class.java)
 
     @Throws(IOException::class)
     override fun commence(

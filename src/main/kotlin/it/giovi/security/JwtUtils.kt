@@ -15,9 +15,8 @@ class JwtUtils(
     private val securityProperties: SecurityProperties
 ) {
 
-    companion object {
-        private val log = LoggerFactory.getLogger(JwtUtils::class.java)
-    }
+    private val log = LoggerFactory.getLogger(JwtUtils::class.java)
+
 
     fun generateJwtToken(authentication: Authentication, refresh: Boolean): String {
         val userPrincipal: JwtUserDetailsImpl = authentication.getPrincipal() as JwtUserDetailsImpl
