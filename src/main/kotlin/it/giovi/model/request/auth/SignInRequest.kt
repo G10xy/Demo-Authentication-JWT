@@ -4,11 +4,11 @@ import io.swagger.v3.oas.annotations.media.Schema
 import javax.validation.constraints.NotBlank
 
 data class SignInRequest(
-    @Schema(description = "Username dell'utente", required = true)
-    @NotBlank(message = "Username is mandatory")
+    @Schema(description = "Username", required = true)
+    @NotBlank
     val username: String,
 
-    @Schema(description = "Password dell'utente", required = true)
-    @NotBlank(message = "Password is mandatory")
+    @Schema(description = "Password", required = true)
+    @NotBlank
     val password: String
 )

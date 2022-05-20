@@ -5,11 +5,11 @@ import javax.validation.constraints.NotBlank;
 
 data class UserLostPasswordRequest(
 
-    @Schema(description = "Vecchia password dell'utente", required = true)
+    @Schema(description = "Secret question", required = true)
     @NotBlank
     val question: String,
 
-    @Schema(description = "Nuova password dell'utente", required = true)
+    @Schema(description = "Secret answer", required = true)
     @NotBlank
     val answer: String
 )

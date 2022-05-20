@@ -6,9 +6,9 @@ import java.time.LocalDateTime
 
 
 data class ErrorResponse(
-    @Schema(description = "Il tipo di eccezione") private val code: String?,
-    @Schema(description = "Il messaggio di errore") private val message: String?,
-    @Schema(description = "Il codice dell'errore") private val status: Int?
+    @Schema(description = "Exception type") private val code: String?,
+    @Schema(description = "Exception message") private val message: String?,
+    @Schema(description = "Exception code") private val status: Int?
 ) {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

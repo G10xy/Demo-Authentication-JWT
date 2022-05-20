@@ -9,22 +9,22 @@ import java.time.LocalDateTime
 data class UserResponse(
     @Schema(description = "User Id")
     val id: Long,
-    @Schema(description = "Indirizzo email")
+    @Schema(description = "Username/mail")
     val username: String,
-    @Schema(description = "Nome utente")
+    @Schema(description = "Name")
     val name: String,
-    @Schema(description = "Cognome utente")
+    @Schema(description = "Surname")
     val surname: String,
 
-    @Schema(description = "Data di creazione")
+    @Schema(description = "Creation date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     val creationDate: LocalDateTime,
 
-    @Schema(description = "Data di ultima attivazione")
+    @Schema(description = "Last activation date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     val activationDate: LocalDateTime,
 
-    @Schema(description = "Data di ultima sospensione")
+    @Schema(description = "Last suspension date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     val suspensionDate: LocalDateTime,
 
@@ -32,13 +32,13 @@ data class UserResponse(
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     val disableDate: LocalDateTime,
 
-    @Schema(description = "Data di ultima modifica")
+    @Schema(description = "Last modified date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     val lastUpdatedDate: LocalDateTime,
 
-    @Schema(description = "Stato utente")
+    @Schema(description = "User state")
     val userState: UserStateEntity.UserStateEnum,
 
-    @Schema(description = "Ruolo del profilo utente")
+    @Schema(description = "User role")
     val userRole: UserRoleEntity.UserRoleEnum
 )

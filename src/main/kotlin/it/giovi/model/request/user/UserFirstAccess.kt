@@ -7,23 +7,23 @@ import javax.validation.constraints.NotBlank
 
 data class UserFirstAccess(
     @Email
-    @Schema(description = "Username dell'utente", required = true)
+    @Schema(description = "Username", required = true)
     @NotBlank
     val username:String,
 
-    @Schema(description = "Nuova password dell'utente", required = true)
+    @Schema(description = "New password", required = true)
     @ValidPassword
     val password: String,
 
-    @Schema(description = "La password di solo primo ed unico accesso", required = true)
+    @Schema(description = "OTP password", required = true)
     @NotBlank
     val otp: String,
 
-    @Schema(description = "Domanda segreta dell'utente", required = true)
+    @Schema(description = "Secret question", required = true)
     @NotBlank
     val question: String,
 
-    @Schema(description = "Risposta segreta dell'utente", required = true)
+    @Schema(description = "Secret answer", required = true)
     @NotBlank
     val answer: String
 )
