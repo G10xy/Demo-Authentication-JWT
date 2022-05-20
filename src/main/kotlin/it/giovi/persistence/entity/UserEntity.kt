@@ -47,9 +47,6 @@ class UserEntity(
     @Column(name = "SUSPENDED_AT")
     var suspensionDate: LocalDateTime?,
 
-    @Column(name = "DELETED_AT")
-    var deletedDate: LocalDateTime?,
-
     @Column(name = "PWD_EXP_DATE")
     var pwdExpirationDate: LocalDateTime?,
 
@@ -72,5 +69,5 @@ class UserEntity(
         surname: String,
         userRole: UserRoleEntity,
         userState: UserStateEntity,
-        ) : this(null, username, name, surname, null, null, null, userRole, userState, null, null, null, null, null, null, null, null)
+        ) : this(null, username, name, surname, null, null, null, userRole, userState, null, null,  null, null, null, null, null)
 }

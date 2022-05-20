@@ -28,10 +28,6 @@ data class UserResponse(
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     val suspensionDate: LocalDateTime,
 
-    @Schema(description = "Data di cancellazione logica")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    val disableDate: LocalDateTime,
-
     @Schema(description = "Last modified date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     val lastUpdatedDate: LocalDateTime,

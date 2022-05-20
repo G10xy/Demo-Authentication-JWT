@@ -30,7 +30,7 @@ interface UserService {
     fun lostPassword(userId: Long, request: UserLostPasswordRequest, authentication: Authentication)
     fun suspendUser(userId: Long, authentication: Authentication)
     fun enableUser(userId: Long, authentication: Authentication)
-    fun deleteUser(userId: Long, authentication: Authentication)
+    fun deleteUser(userId: Long)
     fun createOtpToUser(user: UserEntity)
     fun findAllByFiltering(
         username: String?,

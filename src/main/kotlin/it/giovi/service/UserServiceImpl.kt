@@ -120,11 +120,8 @@ class UserServiceImpl(
     }
 
     @Transactional
-    override fun deleteUser(userId: Long, authentication: Authentication) {
-        val user = userDetailsService.findById(userId)
-        if (user.userState.state == UserStateEnum.DELETED) throw UserException(UserExceptionReason.USER_ALREADY_DELETED)
-        user.userState = userStateService.getUserState(UserStateEnum.DELETED)
-        user.deletedDate = LocalDateTime.now()
+    override fun deleteUser(userId: Long) {
+        userRepository.deleteById(userId)
     }
 
     @Transactional
