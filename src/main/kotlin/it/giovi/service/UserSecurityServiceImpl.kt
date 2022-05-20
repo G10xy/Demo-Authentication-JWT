@@ -43,14 +43,6 @@ open class UserSecurityServiceImpl(
         cacheFailedLogins.remove(username)
     }
 
-    override fun isNotDeleted(userId: Long): Boolean {
-        val user = userDetailsServiceImpl.findById(userId)
-        if (user.userState.state == UserStateEntity.UserStateEnum.DELETED) {
-            throw UserException(UserExceptionReason.DELETED_USER_IS_NOT_EDITABLE)
-        }
-        return true
-    }
-
     override fun isNotOnItself(userId: Long, authentication: Authentication): Boolean {
         val user = authentication.principal as JwtUserDetailsImpl
         if (user.id == userId) {
