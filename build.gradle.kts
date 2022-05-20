@@ -31,6 +31,7 @@ dependencies {
 	implementation("org.mapstruct:mapstruct:1.4.2.Final")
 	implementation("com.linecorp.kotlin-jdsl:hibernate-kotlin-jdsl:2.0.2.RELEASE")
 	implementation("org.hibernate:hibernate-core")
+	implementation("org.postgresql:postgresql:42.1.4")
 	kapt("org.hibernate:hibernate-jpamodelgen")
 	compileOnly("org.hibernate:hibernate-jpamodelgen")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.4.2.Final")
