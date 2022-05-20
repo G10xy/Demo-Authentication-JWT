@@ -111,7 +111,7 @@ object Utility {
         return words.split(regex.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
     }
 
-    fun differenceBetween(first: LocalDateTime?, second: LocalDateTime?, chronoUnit: ChronoUnit): Long {
+    fun differenceBetween(first: LocalDateTime, second: LocalDateTime, chronoUnit: ChronoUnit): Long {
         return chronoUnit.between(first, second)
     }
 
