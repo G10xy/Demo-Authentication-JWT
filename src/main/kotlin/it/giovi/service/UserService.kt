@@ -15,10 +15,12 @@ import java.time.LocalDateTime
 
 interface UserService {
 
+    fun registerLastSignIn(authentication: Authentication)
+    fun registerLastSignOut(authentication: Authentication)
     fun findUser(id: Long): UserResponse
     fun findAllRoles(): Iterable<String>
     fun findAllStates(): Iterable<String>
-    fun daysBeforeExpiration(pwdExpirationDate: LocalDateTime): Long?
+    fun daysBeforeExpiration(pwdExpirationDate: LocalDateTime): Long
     fun findAllDefaultSecurityQuestions(): Iterable<String>
     fun createUser(signUpRequest: SignUpRequest, authentication: Authentication)
     fun modifyUser(userId: Long, dtoRequest: UserInfoChangeRequest, authentication: Authentication)

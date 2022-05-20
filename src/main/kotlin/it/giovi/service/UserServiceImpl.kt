@@ -17,6 +17,7 @@ import it.giovi.persistence.entity.UserStateEntity
 import it.giovi.persistence.entity.UserStateEntity.UserStateEnum
 import it.giovi.persistence.repository.UserOtpRepository
 import it.giovi.persistence.repository.UserRepository
+import it.giovi.security.JwtUserDetailsImpl
 import it.giovi.security.SecurityProperties
 import it.giovi.security.UserDetailsServiceImpl
 import it.giovi.service.mapper.UserMapper
@@ -51,9 +52,24 @@ class UserServiceImpl(
 
     val userMapper: UserMapper = Mappers.getMapper(UserMapper::class.java)
 
-    override fun daysBeforeExpiration(pwdExpirationDate: LocalDateTime): Long? {
-        val days: Long = Utility.differenceBetween(LocalDateTime.now(), pwdExpirationDate, ChronoUnit.DAYS)
-        return if (days <= 10) days else null
+
+    @Transactional
+    override fun registerLastSignIn(authentication: Authentication) {
+        val user: JwtUserDetailsImpl = authentication.principal as JwtUserDetailsImpl
+        log.info("User login: " + user.username)
+        userSecurityService.registerSuccessLogin(user.username)
+        userRepository.setUserLastSignIn(user.username, userStateService.getUserState(UserStateEnum.ACTIVE))
+    }
+
+    @Transactional
+    override fun registerLastSignOut(authentication: Authentication) {
+        val user = authentication.principal as JwtUserDetailsImpl
+        log.info("User logout: " + user.username)
+        userRepository.setUserLastSignOut(user.username, userStateService.getUserState(UserStateEnum.ACTIVE));
+    }
+
+    override fun daysBeforeExpiration(pwdExpirationDate: LocalDateTime): Long {
+        return Utility.differenceBetween(LocalDateTime.now(), pwdExpirationDate, ChronoUnit.DAYS)
     }
 
     override fun findUser(id: Long): UserResponse {
