@@ -50,7 +50,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
         httpSecurity.cors().and().csrf().disable()
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests().antMatchers("/api/v1/auth/**", "/api/v1/healthCheck", "/v3/**").permitAll()
+            .authorizeRequests().antMatchers("/api/v1/auth/**", "/api/v1/healthCheck").permitAll()
             .anyRequest().authenticated()
         httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter::class.java)
         httpSecurity.headers().cacheControl()

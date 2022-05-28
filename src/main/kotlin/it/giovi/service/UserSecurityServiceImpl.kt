@@ -26,7 +26,6 @@ open class UserSecurityServiceImpl(
 
     private val log = LoggerFactory.getLogger(UserSecurityServiceImpl::class.java)
 
-
     private var cacheFailedLogins: MutableMap<String, Int> = Collections.synchronizedMap(mutableMapOf())
 
     @Transactional(noRollbackFor = [ApplicationException::class])

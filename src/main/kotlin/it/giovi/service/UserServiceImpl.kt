@@ -49,8 +49,7 @@ class UserServiceImpl(
 
     private val log : Logger = LoggerFactory.getLogger(UserServiceImpl::class.java)
 
-    val userMapper: UserMapper = Mappers.getMapper(UserMapper::class.java)
-
+    private val userMapper: UserMapper = Mappers.getMapper(UserMapper::class.java)
 
     @Transactional
     override fun registerLastSignIn(authentication: Authentication) {
