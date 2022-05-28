@@ -14,7 +14,7 @@ import java.util.*
 @Repository
 interface UserOtpRepository : JpaRepository<UserOtpEntity, Long> {
     @Query("select otp from UserOtpEntity otp where otp.user = :user and otp.expiryDate >= :now")
-    fun findValidTokenByUser(@Param("user") user: UserEntity, @Param("now") now: LocalDateTime): Optional<UserOtpEntity>
+    fun findValidTokenByUser(@Param("user") user: UserEntity, @Param("now") now: LocalDateTime): UserOtpEntity?
 
     @Modifying
     @Query("delete from UserOtpEntity otp where otp.expiryDate <= :now")

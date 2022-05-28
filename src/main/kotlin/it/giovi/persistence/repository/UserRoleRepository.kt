@@ -8,5 +8,5 @@ import java.util.*
 
 interface UserRoleRepository : JpaRepository<UserRoleEntity, Long> {
 
-    fun findByRole(role: UserRoleEnum): Optional<UserRoleEntity>
+    fun findByRole(role: UserRoleEnum): UserRoleEntity?
 }

@@ -175,8 +175,7 @@ class UserServiceImpl(
     override fun userActivation(userFirstAccess: UserFirstAccess) {
         val user = userRepository.findOne(UserSpecifications.userByUsername(userFirstAccess.username).and(UserSpecifications.userByState(UserStateEnum.INACTIVE)))
             .orElseThrow { throw UserException(UserExceptionReason.USERNAME_NOT_VALID) }
-        val otp: UserOtpEntity = otpRepository.findValidTokenByUser(user, LocalDateTime.now())
-            .orElseThrow { throw UserException(UserExceptionReason.OTP_EXPIRED) }
+        val otp: UserOtpEntity = otpRepository.findValidTokenByUser(user, LocalDateTime.now()) ?: throw UserException(UserExceptionReason.OTP_EXPIRED)
         if (!bcryptEncoder.matches(userFirstAccess.otp, otp.token)) {
             throw UserException(UserExceptionReason.OTP_NOT_VALID)
         }

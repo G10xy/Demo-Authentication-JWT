@@ -14,8 +14,7 @@ class UserRoleService(private val roleRepository: UserRoleRepository) {
 
     @Cacheable(cacheNames = ["userUtilities"], key = "#role")
     fun getUserRole(role: UserRoleEnum): UserRoleEntity {
-        return roleRepository.findByRole(role)
-            .orElseThrow { throw BusinessException(BusinessExceptionReason.ROLE_NOT_FOUND) }
+        return roleRepository.findByRole(role) ?: throw BusinessException(BusinessExceptionReason.ROLE_NOT_FOUND)
     }
 
     @Cacheable(cacheNames = ["userUtilities"], keyGenerator = "customKeyGenerator")

@@ -45,7 +45,6 @@ class UserControllerImpl(
         return userService.findAllByFiltering(username, name, surname, role, state)
     }
 
-
     @GetMapping("/roles")
     @PreAuthorize("{hasAnyRole('ADMIN', 'IAM')}")
     fun getRoles(): Iterable<String> {

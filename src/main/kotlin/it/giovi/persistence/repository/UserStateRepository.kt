@@ -8,5 +8,5 @@ import java.util.*
 
 interface UserStateRepository : JpaRepository<UserStateEntity, Long> {
 
-    fun findByState(state: UserStateEnum): Optional<UserStateEntity>
+    fun findByState(state: UserStateEnum): UserStateEntity?
 }

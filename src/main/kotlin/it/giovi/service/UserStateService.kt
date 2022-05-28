@@ -15,9 +15,7 @@ class UserStateService(private val stateRepository: UserStateRepository) {
 
     @Cacheable(cacheNames = ["userUtilities"], key = "#state")
     fun getUserState(state: UserStateEnum): UserStateEntity {
-        return stateRepository.findByState(state).orElseThrow<RuntimeException> {
-            throw BusinessException(BusinessExceptionReason.STATE_NOT_FOUND)
-        }
+        return stateRepository.findByState(state) ?: throw BusinessException(BusinessExceptionReason.STATE_NOT_FOUND)
     }
 
     @Cacheable(cacheNames = ["userUtilities"], keyGenerator = "customKeyGenerator")

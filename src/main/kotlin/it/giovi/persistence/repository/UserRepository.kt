@@ -11,8 +11,6 @@ import java.util.*
 
 
 interface UserRepository : JpaRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
-    fun findByUsername(username: String): Optional<UserEntity>
-
     @Modifying
     @Query("update UserEntity user set user.lastLoginDate = CURRENT_DATE where user.username = :username and user.userState = :userState")
     fun setUserLastSignIn(@Param("username") username: String, @Param("userState") userState: UserStateEntity)
