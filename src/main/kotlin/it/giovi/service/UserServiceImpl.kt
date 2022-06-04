@@ -18,7 +18,6 @@ import it.giovi.persistence.entity.UserStateEntity.UserStateEnum
 import it.giovi.persistence.repository.UserOtpRepository
 import it.giovi.persistence.repository.UserRepository
 import it.giovi.security.JwtUserDetailsImpl
-import it.giovi.security.SecurityProperties
 import it.giovi.security.UserDetailsServiceImpl
 import it.giovi.service.mapper.UserMapper
 import it.giovi.util.Utility
@@ -26,6 +25,7 @@ import net.bytebuddy.utility.RandomString
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -43,9 +43,11 @@ class UserServiceImpl(
     private val userStateService: UserStateService,
     private val userDetailsService: UserDetailsServiceImpl,
     private val otpRepository: UserOtpRepository,
-    private val securityProperties: SecurityProperties,
     private val userSecurityService: UserSecurityService
 ) : UserService {
+
+    @Value("\${security.default-question-file}")
+    private lateinit var bannedPasswordFile: String
 
     private val log : Logger = LoggerFactory.getLogger(UserServiceImpl::class.java)
 
@@ -83,7 +85,7 @@ class UserServiceImpl(
     }
 
     override fun findAllDefaultSecurityQuestions(): Iterable<String> {
-        return Utility.readResourceFile(securityProperties.defaultQuestionFile).split("\\r?\\n")
+        return Utility.readResourceFile(bannedPasswordFile).split("\\r?\\n")
     }
 
     override fun findAllByFiltering(

@@ -2,6 +2,7 @@ package it.giovi.security
 
 import io.jsonwebtoken.*;
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
@@ -11,9 +12,16 @@ import javax.servlet.http.HttpServletRequest
 
 
 @Component
-class JwtUtils(
-    private val securityProperties: SecurityProperties
-) {
+class JwtUtils{
+
+    @Value("\${security.jwt-secret}")
+    private lateinit var jwtSecret: String
+
+    @Value("\${security.jwt-expiration-ms}")
+    private var jwtExpirationMs: Long = 0
+
+    @Value("\${security.jwt-refresh-expiration-ms}")
+    private var jwtRefreshExpirationMs: Long = 0
 
     private val log = LoggerFactory.getLogger(JwtUtils::class.java)
 
@@ -21,23 +29,23 @@ class JwtUtils(
     fun generateJwtToken(authentication: Authentication, refresh: Boolean): String {
         val userPrincipal: JwtUserDetailsImpl = authentication.getPrincipal() as JwtUserDetailsImpl
         val expirationMs: Long =
-            if (refresh) securityProperties.jwtRefreshExpirationMs else securityProperties.jwtExpirationMs
+            if (refresh) jwtRefreshExpirationMs else jwtExpirationMs
         return Jwts.builder()
             .setSubject(userPrincipal.username)
             .setIssuedAt(Date())
             .setExpiration(Date(System.currentTimeMillis() + expirationMs))
-            .signWith(SignatureAlgorithm.HS512, securityProperties.jwtSecret)
+            .signWith(SignatureAlgorithm.HS512, jwtSecret)
             .compact()
     }
 
     fun getUserNameFromJwtToken(token: String?): String {
-        return Jwts.parser().setSigningKey(securityProperties.jwtSecret).parseClaimsJws(token).getBody()
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody()
             .getSubject()
     }
 
     fun validateJwtToken(authToken: String?): Boolean {
         try {
-            Jwts.parser().setSigningKey(securityProperties.jwtSecret).parseClaimsJws(authToken)
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken)
             return true
         } catch (e: SignatureException) {
             log.error("Invalid JWT signature: {}", e.message)
