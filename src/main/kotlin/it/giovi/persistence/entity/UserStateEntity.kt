@@ -12,11 +12,12 @@ class UserStateEntity(
     @SequenceGenerator(name = "operatorState_Seq", sequenceName = "OPERATOR_STATE_SEQ", allocationSize = 1, initialValue = 1)
     var id: Long,
 
-    @OneToMany(mappedBy = "userState")
     @Enumerated(EnumType.STRING)
     @Column(name = "STATE", nullable = false)
-    var state: UserStateEnum
+    var state: UserStateEnum,
 
+    @OneToMany(mappedBy = "userState", fetch = FetchType.LAZY)
+    var userEntities: MutableSet<UserEntity>
 ) {
 
     enum class UserStateEnum {

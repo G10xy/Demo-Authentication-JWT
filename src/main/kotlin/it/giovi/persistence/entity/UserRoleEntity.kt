@@ -13,10 +13,12 @@ class UserRoleEntity(
     @SequenceGenerator(name = "operatorRole_Seq", sequenceName = "OPERATOR_ROLE_SEQ", allocationSize = 1, initialValue = 1)
     var id: Long,
 
-    @OneToMany(mappedBy = "userRole")
     @Enumerated(EnumType.STRING)
     @Column(name = "ROLE", nullable = false)
-    var role: UserRoleEnum
+    var role: UserRoleEnum,
+
+    @OneToMany(mappedBy = "userRole", fetch = FetchType.LAZY)
+    var userEntities: MutableSet<UserEntity>
 ) {
 
     enum class UserRoleEnum {
