@@ -3,13 +3,8 @@ package it.giovi.service
 import it.giovi.errorhandling.exception.ApplicationException
 import it.giovi.errorhandling.exception.UserException
 import it.giovi.errorhandling.exception.UserExceptionReason
-import it.giovi.persistence.UserSpecifications
-import it.giovi.persistence.entity.UserRoleEntity
 import it.giovi.persistence.entity.UserStateEntity
-import it.giovi.persistence.repository.UserRepository
-import it.giovi.security.JwtAuthenticationEntryPoint
 import it.giovi.security.JwtUserDetailsImpl
-import it.giovi.security.SecurityProperties
 import it.giovi.security.UserDetailsServiceImpl
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication

@@ -7,14 +7,12 @@ import org.mapstruct.Mapping
 import org.mapstruct.Mappings
 
 
-@Mapper(componentModel = "spring")
+@Mapper
 interface UserMapper {
 
     @Mappings(
-        *[Mapping(
-            target = "userState",
-            expression = "java(user.getUserState().getState())"
-        ), Mapping(target = "userRole", expression = "java(user.getUserRole().getRole())")]
+        *[Mapping(target = "userState", expression = "java(user.getUserState().getState())"),
+            Mapping(target = "userRole", expression = "java(user.getUserRole().getRole())")]
     )
     fun userEntityToUserResponse(user: UserEntity): UserResponse
 }

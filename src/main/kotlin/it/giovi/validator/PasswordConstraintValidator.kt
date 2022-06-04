@@ -11,7 +11,7 @@ import javax.validation.ConstraintValidatorContext
 
 class PasswordConstraintValidator : ConstraintValidator<ValidPassword, String> {
 
-    @Value("\${banned-password}")
+    @Value("\${security.default-question-file}")
     private lateinit var bannedPasswordFile: String
 
     private var failedValidationReason: String? = null
