@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
@@ -18,10 +19,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-class WebSecurityConfig : WebSecurityConfigurerAdapter() {
-
-    private val unauthorizedHandler: JwtAuthenticationEntryPoint? = null
-    private val userDetailsService: UserDetailsServiceImpl? = null
+class WebSecurityConfig(
+    private val unauthorizedHandler: JwtAuthenticationEntryPoint,
+    private val userDetailsService: UserDetailsService
+) : WebSecurityConfigurerAdapter() {
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {

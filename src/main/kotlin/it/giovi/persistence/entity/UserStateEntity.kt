@@ -3,7 +3,7 @@ package it.giovi.persistence.entity
 import javax.persistence.*
 
 @Entity
-@Table(name = "USER_STATE", schema="DEMO")
+@Table(name = "USER_STATE", schema="PUBLIC")
 class UserStateEntity(
 
     @Id

@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Table(name = "USER_OTP", schema="DEMO")
+@Table(name = "USER_OTP", schema="PUBLIC")
 class UserOtpEntity(
 
     @Id

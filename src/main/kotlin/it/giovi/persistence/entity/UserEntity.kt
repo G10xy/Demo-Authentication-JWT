@@ -5,7 +5,7 @@ import javax.persistence.*
 import javax.validation.constraints.Email
 
 @Entity
-@Table(name = "USER", schema="DEMO", uniqueConstraints = [UniqueConstraint(columnNames = ["USERNAME", "ROLE_ID" ])])
+@Table(name = "USER", schema="PUBLIC", uniqueConstraints = [UniqueConstraint(columnNames = ["USERNAME", "ROLE_ID" ])])
 class UserEntity(
 
     @Id
