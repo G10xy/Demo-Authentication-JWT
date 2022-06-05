@@ -26,7 +26,7 @@ class UserControllerImpl(
     private val userService: UserService
 ) : UserController {
 
-    @GetMapping(name = "/{id}")
+    @GetMapping("/{id}")
     override fun getUser(@RequestHeader("X-Request-Id") requestId: String, @PathVariable("id") id: Long): ResponseEntity<UserResponse> {
         return ResponseEntity.ok(userService.findUser(id))
     }
@@ -77,7 +77,7 @@ class UserControllerImpl(
         return ResponseEntity.ok(SuccessResponse("Password successfully updated"))
     }
 
-    @PutMapping(name = "/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'IAM') and @userSecurityServiceImpl.isNotOnItself(#id, #authentication)")
     override fun modifyUser(
         @RequestHeader("X-Request-Id") requestId: String,
@@ -116,7 +116,7 @@ class UserControllerImpl(
         return ResponseEntity.ok(SuccessResponse("Reset password successfully done"))
     }
 
-    @DeleteMapping(name = "/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'IAM') and @userSecurityServiceImpl.isNotOnItself(#id, #authentication)")
     override fun deleteUser(@RequestHeader("X-Request-Id") requestId: String, @PathVariable("id") id: Long, authentication: Authentication): ResponseEntity<SuccessResponse> {
         userService.deleteUser(id)

@@ -29,14 +29,14 @@ import javax.validation.Valid
 interface UserController {
     @Operation(
         operationId = "getUser",
-        summary = "User Registration",
-        description = "API allowing to register a user",
+        summary = "User Information",
+        description = "API to get user data",
         tags = ["User"],
         parameters = [Parameter(
             `in` = ParameterIn.PATH,
             name = "id",
             description = "User Id",
-            schema = Schema(type = "long")
+            schema = Schema(type = "integer")
         )],
         responses = [ApiResponse(
             responseCode = "201",
@@ -229,7 +229,7 @@ interface UserController {
             `in` = ParameterIn.PATH,
             name = "id",
             description = "Id of the user whose changes you want to make",
-            schema = Schema(type = "long")
+            schema = Schema(type = "integer")
         )],
         requestBody = RequestBody(
             description = "Model containing modified first name, last name, and role of the user",
@@ -279,8 +279,8 @@ interface UserController {
         parameters = [Parameter(
             `in` = ParameterIn.PATH,
             name = "id",
-            description = "Id dell'utente che si vuole disabilitare",
-            schema = Schema(type = "long")
+            description = "Id of the user to be disabled",
+            schema = Schema(type = "integer")
         )],
         responses = [ApiResponse(
             responseCode = "200",
@@ -323,7 +323,7 @@ interface UserController {
             `in` = ParameterIn.PATH,
             name = "id",
             description = "Id of the user to be enabled",
-            schema = Schema(type = "long")
+            schema = Schema(type = "integer")
         )],
         responses = [ApiResponse(
             responseCode = "200",
@@ -411,7 +411,7 @@ interface UserController {
             `in` = ParameterIn.PATH,
             name = "id",
             description = "Id of the user whose password is to be reset",
-            schema = Schema(type = "long")
+            schema = Schema(type = "integer")
         )],
         responses = [ApiResponse(
             responseCode = "200",
@@ -454,7 +454,7 @@ interface UserController {
             `in` = ParameterIn.PATH,
             name = "id",
             description = "Id of the user to be deleted",
-            schema = Schema(type = "long")
+            schema = Schema(type = "integer")
         )],
         responses = [ApiResponse(
             responseCode = "200",
