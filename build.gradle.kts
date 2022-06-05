@@ -4,6 +4,7 @@ plugins {
 	id("org.springframework.boot") version "2.6.7"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("io.swagger.core.v3.swagger-gradle-plugin") version "2.2.0"
+	id("org.springdoc.openapi-gradle-plugin") version "1.3.4"
 	kotlin("jvm") version "1.6.21"
 	kotlin("plugin.allopen") version "1.4.32"
 	kotlin("plugin.spring") version "1.6.21"
@@ -63,3 +64,4 @@ allOpen {
 	annotation("javax.persistence.Embeddable")
 	annotation("javax.persistence.MappedSuperclass")
 }
+
