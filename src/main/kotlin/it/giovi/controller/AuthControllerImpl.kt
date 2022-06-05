@@ -31,14 +31,14 @@ class AuthControllerImpl(
     private val userDetailsService: UserDetailsServiceImpl,
     private val jwtUtils: JwtUtils,
     private val userService: UserService
-    ) {
+) : AuthController {
 
     @PostMapping(
         value = ["/signIn"],
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun userAuthentication(
+    override fun userAuthentication(
         @RequestHeader("X-Request-Id") requestId: String,
         @Valid @RequestBody signInRequest: SignInRequest): ResponseEntity<JwtResponse> {
         val authentication: Authentication = authenticationManager.authenticate(
@@ -66,7 +66,7 @@ class AuthControllerImpl(
 
 
     @PostMapping("/refreshToken")
-    fun refreshTokenUser(request: HttpServletRequest?): ResponseEntity<JwtResponse> {
+    override fun refreshTokenUser(@RequestHeader("X-Request-Id") requestId: String, request: HttpServletRequest): ResponseEntity<JwtResponse> {
         val refreshToken = jwtUtils.parseJwt(request!!)
         return if (refreshToken != null && jwtUtils.validateJwtToken(refreshToken)) {
             val username = jwtUtils.getUserNameFromJwtToken(refreshToken)
@@ -84,15 +84,14 @@ class AuthControllerImpl(
         }
     }
 
-
     @PutMapping("/userActivation")
-    fun userActivation(@RequestBody userFirstAccess: @Valid UserFirstAccess): ResponseEntity<SuccessResponse> {
+    override fun userActivation(@RequestHeader("X-Request-Id") requestId: String, @RequestBody userFirstAccess: @Valid UserFirstAccess): ResponseEntity<SuccessResponse> {
         userService.userActivation(userFirstAccess)
         return ResponseEntity.ok(SuccessResponse("User correctly activated"))
     }
 
     @GetMapping("/defaultSecQuestions")
-    fun getDefaultSecQuestions(): ResponseEntity<Iterable<String>> {
+    override fun getDefaultSecQuestions(@RequestHeader("X-Request-Id") requestId: String): ResponseEntity<Iterable<String>> {
         return ResponseEntity.ok(userService.findAllDefaultSecurityQuestions())
     }
 

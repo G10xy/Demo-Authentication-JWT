@@ -24,10 +24,10 @@ import javax.validation.Valid
 @RequestMapping("/api/v1/management/users")
 class UserControllerImpl(
     private val userService: UserService
-) {
+) : UserController {
 
     @GetMapping(name = "/{id}")
-    fun getUser(@PathVariable("id") id: Long): ResponseEntity<UserResponse> {
+    override fun getUser(@RequestHeader("X-Request-Id") requestId: String, @PathVariable("id") id: Long): ResponseEntity<UserResponse> {
         return ResponseEntity.ok(userService.findUser(id))
     }
 
@@ -35,7 +35,8 @@ class UserControllerImpl(
     @GetMapping("/advancedFiltering")
     @PreAuthorize("{hasAnyRole('ADMIN', 'IAM')}")
     @PostFilter("hasRole('IAM') ? filterObject.getUserRole().name() != 'ROLE_EDITOR' : filterObject.getUserRole().name() != 'ROLE_ADMIN'")
-    fun getUsersByFiltering(
+    override fun getUsersByFiltering(
+        @RequestHeader("X-Request-Id") requestId: String,
         @RequestParam(value = "username", required = false, defaultValue = "") username: String,
         @RequestParam(value = "name", required = false, defaultValue = "") name: String,
         @RequestParam(value = "surname", required = false, defaultValue = "") surname: String,
@@ -47,28 +48,29 @@ class UserControllerImpl(
 
     @GetMapping("/roles")
     @PreAuthorize("{hasAnyRole('ADMIN', 'IAM')}")
-    fun getRoles(): Iterable<String> {
+    override fun getRoles(@RequestHeader("X-Request-Id") requestId: String): Iterable<String> {
         return userService.findAllRoles()
     }
 
     @GetMapping("/states")
     @PreAuthorize("{hasAnyRole('ADMIN', 'IAM')}")
-    fun getStates(): Iterable<String> {
+    override fun getStates(@RequestHeader("X-Request-Id") requestId: String): Iterable<String> {
         return userService.findAllStates()
     }
 
     @PostMapping("/signUp")
     @PreAuthorize(
-        "{(hasRole('ADMIN') and (#request.role.toString() == 'ROLE_ADMIN' or #request.role.toString() == 'ROLE_IAM')) " +
-                "or (hasRole('IAM') and (#request.role.toString() == 'ROLE_IAM' or #request.role.toString() == 'ROLE_EDITOR'))}")
-    fun registerUser(
-        @Valid @RequestBody request: SignUpRequest, authentication: Authentication): ResponseEntity<SuccessResponse> {
+        "{(hasRole('ADMIN') and (#request.role.toString() == 'ROLE_ADMIN' or #request.role.toString() == 'ROLE_IAM')) or (hasRole('IAM') and (#request.role.toString() == 'ROLE_IAM' or #request.role.toString() == 'ROLE_EDITOR'))}")
+    override fun registerUser(
+        @RequestHeader("X-Request-Id") requestId: String,
+        @Valid @RequestBody request: SignUpRequest,
+        authentication: Authentication): ResponseEntity<SuccessResponse> {
         userService.createUser(request, authentication)
         return ResponseEntity(SuccessResponse("User correctly logged in"), HttpStatus.CREATED)
     }
 
     @PutMapping("/password")
-    fun modifyPassword(
+    override fun modifyPassword(@RequestHeader("X-Request-Id") requestId: String,
         @RequestBody dtoRequest: @Valid UserChangePasswordRequest, authentication: Authentication): ResponseEntity<SuccessResponse> {
         val jwtUser = authentication.principal as JwtUserDetailsImpl
         jwtUser.id?.let { userService.modifyPassword(it, dtoRequest) }
@@ -77,27 +79,31 @@ class UserControllerImpl(
 
     @PutMapping(name = "/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'IAM') and @userSecurityServiceImpl.isNotOnItself(#id, #authentication)")
-    fun modifyUser(@PathVariable("id") id: Long, @RequestBody dtoRequest: @Valid UserInfoChangeRequest, authentication: Authentication): ResponseEntity<SuccessResponse> {
+    override fun modifyUser(
+        @RequestHeader("X-Request-Id") requestId: String,
+        @PathVariable("id") id: Long,
+        @RequestBody dtoRequest: @Valid UserInfoChangeRequest,
+        authentication: Authentication): ResponseEntity<SuccessResponse> {
         userService.modifyUser((id), (dtoRequest), (authentication))
         return ResponseEntity.ok(SuccessResponse("User successfully modified"))
     }
 
     @PatchMapping("/{id}/disable")
     @PreAuthorize("hasAnyRole('ADMIN', 'IAM') and @userSecurityServiceImpl.isNotOnItself(#id, #authentication)")
-    fun disableUser(@PathVariable("id") id: Long, authentication: Authentication): ResponseEntity<SuccessResponse> {
+    override fun disableUser(@RequestHeader("X-Request-Id") requestId: String, @PathVariable("id") id: Long, authentication: Authentication): ResponseEntity<SuccessResponse> {
         userService.suspendUser(id, authentication)
         return ResponseEntity.ok(SuccessResponse("User correctly suspended"))
     }
 
     @PatchMapping("/{id}/enable")
     @PreAuthorize("hasAnyRole('ADMIN', 'IAM') and @userSecurityServiceImpl.isNotOnItself(#id, #authentication)")
-    fun enableUser(@PathVariable("id") id: Long, authentication: Authentication): ResponseEntity<SuccessResponse> {
+    override fun enableUser(@RequestHeader("X-Request-Id") requestId: String, @PathVariable("id") id: Long, authentication: Authentication): ResponseEntity<SuccessResponse> {
         userService.enableUser(id, authentication)
         return ResponseEntity.ok(SuccessResponse("User correctly enabled"))
     }
 
     @PutMapping("/lostPassword")
-    fun lostPassword(@RequestBody dtoRequest: @Valid UserLostPasswordRequest, authentication: Authentication): ResponseEntity<SuccessResponse> {
+    override fun lostPassword(@RequestHeader("X-Request-Id") requestId: String, @RequestBody dtoRequest: @Valid UserLostPasswordRequest, authentication: Authentication): ResponseEntity<SuccessResponse> {
         val jwtUser = authentication.principal as JwtUserDetailsImpl
         jwtUser.id?.let { userService.lostPassword(it, dtoRequest, authentication) }
         return ResponseEntity.ok(SuccessResponse("Reset password successfully done"))
@@ -105,20 +111,20 @@ class UserControllerImpl(
 
     @PutMapping("/{id}/resetPassword")
     @PreAuthorize("hasAnyRole('ADMIN', 'IAM') and @userSecurityServiceImpl.isNotOnItself(#id, #authentication)")
-    fun resetUserPassword(@PathVariable("id") id: Long, authentication: Authentication): ResponseEntity<SuccessResponse> {
+    override fun resetUserPassword(@RequestHeader("X-Request-Id") requestId: String, @PathVariable("id") id: Long, authentication: Authentication): ResponseEntity<SuccessResponse> {
         userService.resetPassword(id, authentication)
         return ResponseEntity.ok(SuccessResponse("Reset password successfully done"))
     }
 
     @DeleteMapping(name = "/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'IAM') and @userSecurityServiceImpl.isNotOnItself(#id, #authentication)")
-    fun deleteUser(@PathVariable("id") id: Long, authentication: Authentication): ResponseEntity<SuccessResponse> {
+    override fun deleteUser(@RequestHeader("X-Request-Id") requestId: String, @PathVariable("id") id: Long, authentication: Authentication): ResponseEntity<SuccessResponse> {
         userService.deleteUser(id)
         return ResponseEntity.ok(SuccessResponse("User successfully removed"))
     }
 
     @PostMapping("/signOut")
-    fun userSignOut(request: HttpServletRequest, authentication: Authentication): ResponseEntity<SuccessResponse> {
+    override fun userSignOut(@RequestHeader("X-Request-Id") requestId: String, request: HttpServletRequest, authentication: Authentication): ResponseEntity<SuccessResponse> {
         userService.registerLastSignOut(authentication)
         return ResponseEntity.ok(SuccessResponse("Logout success"))
     }
